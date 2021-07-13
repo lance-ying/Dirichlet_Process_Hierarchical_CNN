@@ -31,21 +31,26 @@ def main():
     # t=parser.parse_args().trial
     print("loading data")
 
+    # df=pd.read_csv("/home/lancelcy/PRIORI/metadata/R21_f.csv")
     df=pd.read_csv("/home/lancelcy/PRIORI/metadata/V1_v2.csv")
     X=np.load("/home/lancelcy/PRIORI/data/V1_norm.npy")
     X=X[:,:,:6000]
+    # idx=np.load("/home/lancelcy/PRIORI/metadata/R21_idx.npy")
+    # X=np.take(X,idx, axis=0)
     Y=df["valence"].to_numpy()
     features=pd.read_csv("/z/lancelcy/V1/features_norm.csv")
     X_feat=StandardScaler().fit_transform(features.drop(["name"],axis=1))
     print(X.shape)
     print(Y.shape)
 
-    # folds=len(df["sub_id"].unique())
-    folds=19
+    folds=len(df["subject_id"].unique())
+    # folds=19
     print("data loaded")
 
     group_kfold = GroupKFold(n_splits=folds)
     # UAR=np.zeros((20, folds))
+    DPMM=clustering(X_feat,2)
+    # DPMM=pickle.load(open("/home/lancelcy/PRIORI/train_script/CNN/DPMM_random.pk","rb"))
     # for trial in tqdm(range(20)):
     UAR=np.zeros(19)
     for trial in [1]:
@@ -66,7 +71,7 @@ def main():
             X_feat_test=StandardScaler().fit_transform(feat_test.drop(["name"],axis=1))
 
             clf=[]
-            DPMM=pickle.load(open("/home/lancelcy/PRIORI/train_script/CNN/DPMM_random.pk","rb"))
+            
             for i in range(len(DPMM.weights_)):
                 cluster_index=np.array(np.where(DPMM.predict(StandardScaler().fit_transform(feat_train.drop(["name"],axis=1)))==i)[0])
                 np.random.shuffle(cluster_index)
@@ -91,13 +96,13 @@ def main():
                 model = Net(patience)
                 model.load_state_dict(torch.load(path+"{}.checkpoint".format(count)))
 
-                # for layer in model.cnn_layers:
-                #     for param in layer.parameters():
-                #         param.requires_grad = False
-                #     break
+                for layer in model.cnn_layers:
+                    for param in layer.parameters():
+                        param.requires_grad = False
+                    break
 
-                for param in model.cnn_layers.parameters():
-                    param.requires_grad = False
+                # for param in model.cnn_layers.parameters():
+                    # param.requires_grad = False
                 best_model=None
                 best_loss=np.inf
 
@@ -151,9 +156,10 @@ def main():
                 # torch.save(best_model, filename)
             count+=1
 
-            # np.save("/home/lancelcy/PRIORI/test_result/V1_val_DPHNN.npy",np.array(UAR))
-        print(np.array(UAR).mean())
-    np.save("/home/lancelcy/PRIORI/test_result/V1_val_DPHNN_total2.npy",np.array(UAR))
+            np.save("/home/lancelcy/PRIORI/test_result/V1_val_DPHNN_cnn.npy",UAR)
+        # print(np.array(UAR).mean())
+        print(UAR.mean())
+    np.save("/home/lancelcy/PRIORI/test_result/V1_val_DPHNN_cnn.npy",UAR)
     # print(UAR.mean(axis=1))
         
 

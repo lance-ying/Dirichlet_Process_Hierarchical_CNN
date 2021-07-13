@@ -5,6 +5,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 import matplotlib.pyplot as plt
 import numpy as np
+import copy
 import pandas as pd
 
 
@@ -71,7 +72,17 @@ class Net(nn.Module):
 
             self.loss=new_val_loss
 
-# class DPHNN(nn.Module): 
-#     def __init__(self, DPMM, X_train, Y_train):
-#         self.num_clf=len(DPMM.weights_)
+class DPHNN(nn.Module): 
+    def __init__(self, DPMM):
+        self.num_clf=len(DPMM.weights_)
+        self.DPMM=DPMM
+        self.clf=[]
 
+    def fit(self, model,train_loader, val_loader):
+        for i in range(self.num_clf):
+            clf=copy.deepcopy(model).cuda(1)
+            clf.train()
+            optimizer=optim.Adam(model.parameters(), lr=0.0001,weight_decay=1e-6)
+            criterion=nn.CrossEntropyLoss()
+            clf.fit(optimizer,criterion,train_loader,val_loader)
+            self.clf.append(clf)
