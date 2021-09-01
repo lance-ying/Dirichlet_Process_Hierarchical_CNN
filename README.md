@@ -1,4 +1,4 @@
-# NHNN
+# NHNN Implementation
 
 This is the Pytorch implementation for paper "Accounting for Variations in Speech Emotion Recognition with NonParametric Hierarchical Neural Network".
 
