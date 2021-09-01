@@ -2,7 +2,7 @@
 
 This is the Pytorch implementation for paper "Accounting for Variations in Speech Emotion Recognition with NonParametric Hierarchical Neural Network".
 
-The training file included is for IEMOCAP. The eGeMAPS features are extracted and stored as features.csv. 
+The training file included is for IEMOCAP. The metadata is stored in data.csv, which includes audio segment id, subject id, gender label, and emotion label (valence rating). The eGeMAPS features for the audios are extracted and stored as features.csv. 
 
 To run the training for CNN, you can simply run
 
