@@ -143,7 +143,7 @@ def main():
         count+=1
     
     np.save("./IEMOCAP_cnn.npy",UAR)
-    print("CNN UAR:"UAR.mean())
+    print("CNN UAR:",UAR.mean())
         
 
 if __name__ == "__main__": 
