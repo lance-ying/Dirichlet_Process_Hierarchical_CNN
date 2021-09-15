@@ -1,6 +1,6 @@
 # NHNN Implementation
 
-This is the Pytorch implementation for paper "Accounting for Variations in Speech Emotion Recognition with NonParametric Hierarchical Neural Network".
+This is the Pytorch implementation for paper ["Accounting for Variations in Speech Emotion Recognition with NonParametric Hierarchical Neural Network"](https://arxiv.org/abs/2109.04316).
 
 The training file included is for IEMOCAP. The metadata is stored in data.csv, which includes audio segment id, subject id, gender label, and emotion label (valence rating). The eGeMAPS features for the audios are extracted and stored as features.csv. 
 
