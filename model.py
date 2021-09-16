@@ -77,8 +77,8 @@ class NHNN(nn.Module):
 
             for step in range(1,len(train_loader)+1):
                 mfbs, label = next(iter(train_loader))
-                mfbs=mfbs.cuda(2)
-                label=label.cuda(2)
+                mfbs=mfbs.cuda(0)
+                label=label.cuda(0)
                 optimizer.zero_grad()
                 prediction=self.forward(mfbs)
                 loss=criterion(prediction, label)
@@ -91,8 +91,8 @@ class NHNN(nn.Module):
             with torch.no_grad():
                 for step in range(1,len(val_loader)+1):
                     mfbs, label = next(iter(val_loader))
-                    mfbs=mfbs.cuda(2)
-                    label=label.cuda(2)
+                    mfbs=mfbs.cuda(0)
+                    label=label.cuda(0)
                     prediction=self.forward(mfbs)
                     loss=criterion(prediction, label)
                     loss_valid+=loss.item()
