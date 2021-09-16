@@ -36,9 +36,8 @@ def main():
 
     if version not in ["FC+Conv", "FC"]:
         print("invalid input")
-        return 0
-
-    os.mkdir("./checkpt")
+        return 1
+    
     print("loading data")
 
     X=np.load("./IEMOCAP.npy")
