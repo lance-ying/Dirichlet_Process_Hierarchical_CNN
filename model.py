@@ -25,6 +25,7 @@ class CNN(nn.Module):
 
         self.linear_layers = nn.Sequential(
             nn.Linear(128,128),
+            nn.ReLU(inplace=True),
             nn.Linear(128, 3)
         )
 
@@ -60,6 +61,7 @@ class NHNN(nn.Module):
 
         self.linear_layers = nn.Sequential(
             nn.Linear(128,128),
+            nn.ReLU(inplace=True),
             nn.Linear(128, 3)
         )
 
